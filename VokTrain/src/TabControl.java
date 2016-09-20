@@ -250,7 +250,7 @@ public class TabControl extends JFrame {
 		JButton btnSort = new JButton("De");
 		btnSort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vl.bubbleSort(true);
+				vl.sortList(true);
 			}
 		});
 		GridBagConstraints gbc_btnSort = new GridBagConstraints();
@@ -262,7 +262,7 @@ public class TabControl extends JFrame {
 		JButton btnSort_1 = new JButton("En");
 		btnSort_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vl.bubbleSort(false);
+				vl.sortList(false);
 			}
 		});
 		GridBagConstraints gbc_btnSort_1 = new GridBagConstraints();

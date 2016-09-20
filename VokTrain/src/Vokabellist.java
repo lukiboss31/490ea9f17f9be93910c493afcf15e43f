@@ -10,28 +10,67 @@ public class Vokabellist {
 		initlist();
 
 	}
-
+	
 	public void sortList(boolean de) {
 		this.de = de;
+		
 		for (int i = 1; i < list.length; i++) {
 			if (list[i] != null) {
 				tmp = list[i];
 				for (int j = i - 1; j >= 0; j--) {
-					if (getChar(list[j])[0] > getChar(tmp)[0]) {
+					
+					if (getString(list[j]).compareTo(getString(tmp)) >= 0) {
 						list[j + 1] = list[j];
 						if (j == 0) {
 							list[j] = tmp;
-							break;
 						}
-					} else if (getChar(list[j])[0] == getChar(tmp)[0]) {
-						check(j, tmp, 1);
 					} else {
-						list[j] = tmp;
+						list[j+1] = tmp;
+						break;
+					}					
+				}
+			}
+		}
+	}
+
+	private String getString(Vokabel v) {
+		if (de) {
+			return v.getdt();
+		} else {
+			return v.geten();
+		}
+	}
+
+	public void sortListWrong(boolean de) {
+		this.de = de;
+		
+		for (int i = 1; i < list.length; i++) {
+			if (list[i] != null) {
+				tmp = list[i];
+				for (int j = i - 1; j >= 0; j--) {
+					boolean stop = compare(j, tmp, 0);					
+					if (stop) {
 						break;
 					}
 				}
 			}
 		}
+	}
+
+	public boolean compare(int j, Vokabel tmp, int index) {
+		boolean stop = false;
+		if (getChar(list[j])[index] > getChar(tmp)[index]) {
+			list[j + 1] = list[j];
+			if (j == 0) {
+				list[j] = tmp;
+			}
+		} else if (getChar(list[j])[index] == getChar(tmp)[index]) {
+			 return compare(j, tmp, index++);
+		} else {
+			list[j+1] = tmp;
+			stop=true;			
+		}
+		return stop;
 	}
 
 	public char[] getChar(Vokabel v) {
@@ -62,16 +101,6 @@ public class Vokabellist {
 		}
 	}
 
-	public void check(int j, Vokabel tmp, int index) {
-		if (getChar(list[j])[index] > getChar(tmp)[index]) {
-			list[j + 1] = list[j];
-		} else if (getChar(list[j])[index] == getChar(tmp)[index]) {
-			check(j, tmp, index++);
-		} else {
-			return;
-		}
-	}
-
 	public void getDt(String en) {
 		for (Vokabel v : list) {
 			if (en.equals(v.geten())) {
@@ -91,13 +120,13 @@ public class Vokabellist {
 	}
 
 	public void initlist() {
-		addtoList(new Vokabel("haus", "house",0));
-		addtoList(new Vokabel("aaa", "house",0));
-		addtoList(new Vokabel("aba", "house",0));
-		addtoList(new Vokabel("eins", "one",0));
-		addtoList(new Vokabel("zwei", "two",0));
-		addtoList(new Vokabel("aab", "house",0));
-		addtoList(new Vokabel("drei", "three",0));
+		addtoList(new Vokabel("haus", "house", 0));
+		addtoList(new Vokabel("aaa", "house", 0));
+		addtoList(new Vokabel("aba", "house", 0));
+		addtoList(new Vokabel("eins", "one", 0));
+		addtoList(new Vokabel("zwei", "two", 0));
+		addtoList(new Vokabel("aab", "house", 0));
+		addtoList(new Vokabel("drei", "three", 0));
 	}
 
 	public void printList() {
