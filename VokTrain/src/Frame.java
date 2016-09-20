@@ -12,6 +12,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+
+import data.Vokabel;
+
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
@@ -231,7 +234,7 @@ public class Frame extends JApplet {
 		});
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vl.addtoList((new Vokabel(textField.getText(), textField_1.getText())));
+				vl.addtoList((new Vokabel(textField.getText(), textField_1.getText(), 0)));
 			}
 		});
 		displayVok();

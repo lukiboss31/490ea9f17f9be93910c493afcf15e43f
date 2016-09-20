@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import data.Vokabel;
+
 import javax.swing.JTabbedPane;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -166,10 +169,10 @@ public class TabControl extends JFrame {
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("Management", null, panel_1, null);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panel_1.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
 		JLabel lblDe_1 = new JLabel("De:");
@@ -193,12 +196,13 @@ public class TabControl extends JFrame {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textField_2.getText() != "" && textField_3.getText() != ""){
-				vl.addtoList((new Vokabel(textField_2.getText(), textField_3.getText())));
+				vl.addtoList((new Vokabel(textField_2.getText(), textField_3.getText(),0)));
 				textField_2.setText("");
 				textField_3.setText("");
 			}}
 		});
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
+		gbc_btnSave.gridwidth = 2;
 		gbc_btnSave.fill = GridBagConstraints.VERTICAL;
 		gbc_btnSave.gridheight = 2;
 		gbc_btnSave.insets = new Insets(0, 0, 5, 0);
@@ -229,31 +233,51 @@ public class TabControl extends JFrame {
 				initTable();
 			}
 		});
+		
+		JLabel lblSort = new JLabel("Sort:");
+		GridBagConstraints gbc_lblSort = new GridBagConstraints();
+		gbc_lblSort.gridwidth = 2;
+		gbc_lblSort.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSort.gridx = 2;
+		gbc_lblSort.gridy = 2;
+		panel_1.add(lblSort, gbc_lblSort);
 		GridBagConstraints gbc_btnLoadlist = new GridBagConstraints();
 		gbc_btnLoadlist.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLoadlist.gridx = 1;
-		gbc_btnLoadlist.gridy = 2;
+		gbc_btnLoadlist.gridy = 3;
 		panel_1.add(btnLoadlist, gbc_btnLoadlist);
 		
-		JButton btnSort = new JButton("sort");
+		JButton btnSort = new JButton("De");
 		btnSort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				vl.sortList(true);
+				vl.bubbleSort(true);
 			}
 		});
 		GridBagConstraints gbc_btnSort = new GridBagConstraints();
-		gbc_btnSort.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSort.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSort.gridx = 2;
-		gbc_btnSort.gridy = 2;
+		gbc_btnSort.gridy = 3;
 		panel_1.add(btnSort, gbc_btnSort);
+		
+		JButton btnSort_1 = new JButton("En");
+		btnSort_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vl.bubbleSort(false);
+			}
+		});
+		GridBagConstraints gbc_btnSort_1 = new GridBagConstraints();
+		gbc_btnSort_1.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSort_1.gridx = 3;
+		gbc_btnSort_1.gridy = 3;
+		panel_1.add(btnSort_1, gbc_btnSort_1);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.gridwidth = 3;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 3;
+		gbc_scrollPane.gridy = 4;
 		panel_1.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
