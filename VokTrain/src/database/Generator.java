@@ -86,6 +86,7 @@ public class Generator {
 		try {
 			// SELECT * FROM VokableList ORDER BY DE ASC;
 			String querry = "select * from VokableList " + order;
+//			System.out.println(querry);
 			PreparedStatement pst = connection.prepareStatement(querry);
 			ResultSet rs = pst.executeQuery();
 			model = DbUtils.resultSetToTableModel(rs);
@@ -113,4 +114,26 @@ public class Generator {
 		}
 
 	}
+	
+	public ArrayList<Vokabel> getFullList() {
+		connection = sqliteConnection.dbConnection();
+		ArrayList<Vokabel> list = new ArrayList<Vokabel>();
+		try {
+			String querry = "select * from VokableList";
+
+			PreparedStatement pst = connection.prepareStatement(querry);
+
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				Vokabel vok = new Vokabel(rs.getString("DE"), rs.getString("EN"), rs.getInt("FOLDER"));
+				list.add(vok);
+			}
+			rs.close();
+			pst.close();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		return list;
+	}
+
 }

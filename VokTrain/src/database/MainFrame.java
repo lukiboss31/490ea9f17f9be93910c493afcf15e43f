@@ -31,6 +31,8 @@ import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
@@ -431,31 +433,40 @@ public class MainFrame extends JFrame {
 				}
 			}
 		});
-		
-//		TODO: Sort by clicking Table
-//		table.getTableHeader().addMouseListener(new MouseAdapter() {
-//		    @Override
-//		    public void mousePressed(MouseEvent e) {
-//		        int col = table.columnAtPoint(e.getPoint());
-//		        String name = table.getColumnName(col);
-//		        System.out.println("Column index selected " + col + " " + name);
-//		        
-//		        setTableModel(name);
-//		    }
-//
-//			
-//		});
+
+		// TODO: Sort by clicking Table
+		table.getTableHeader().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int col = table.columnAtPoint(e.getPoint());
+				String name = table.getColumnName(col);
+				System.out.println("Column index selected " + col + " " + name);
+
+				ArrayList<Vokabel> l = generator.getFullList();
+				if (col == 0) {
+					l.sort(new DEComparator());
+				} else if (col == 1) {
+					l.sort(new ENComparator());
+				} else {
+					l.sort(new IndexComparator());
+				}
+
+				DefaultTableModel model = new DefaultTableModel();
+				model.setColumnIdentifiers(new Object[] { "DE", "EN", "FOLDER" });
+				for (Vokabel v : l) {
+					model.addRow(new Object[] { v.getdt(), v.geten(), v.getBox() });
+				}
+				table.setModel(model);
+			}
+
+		});
 	}
-	
-//	public void setTableModel(String name) {
-//		table.setModel(generator.getTableModel("ORDER BY " + name + " ASC"));
-//	}
 
 	public void item1() {
 		int selectrow = table.getSelectedRow();
 		String de = (String) table.getModel().getValueAt(selectrow, 0);
 		String en = (String) table.getModel().getValueAt(selectrow, 1);
-		int box = (int) table.getModel().getValueAt(selectrow, 2);
+		int box = Integer.parseInt((String) table.getModel().getValueAt(selectrow, 2));
 		((DefaultTableModel) table.getModel()).removeRow(selectrow);
 
 		Vokabel v = new Vokabel(de, en, box);
@@ -477,20 +488,21 @@ public class MainFrame extends JFrame {
 	}
 
 	private void displayVok() {
-		if (list[box].size() == 0){
+		if (list[box].size() == 0) {
 			JOptionPane.showMessageDialog(this, "List empty\nselect another one", "ERROR", JOptionPane.ERROR_MESSAGE);
 			tabbedPane.setSelectedIndex(0);
-		} else{
-		Textfields(true);
-		textField.setText("");
-		textField_1.setText("");
-		lblEnd.setText("");
-		currentVok = getRandomVok();
-		if (de) {
-			textField.setText(currentVok.getdt());
 		} else {
-			textField_1.setText(currentVok.geten());
-		}}
+			Textfields(true);
+			textField.setText("");
+			textField_1.setText("");
+			lblEnd.setText("");
+			currentVok = getRandomVok();
+			if (de) {
+				textField.setText(currentVok.getdt());
+			} else {
+				textField_1.setText(currentVok.geten());
+			}
+		}
 	}
 
 	public void Textfields(boolean enable) {
@@ -519,6 +531,10 @@ public class MainFrame extends JFrame {
 		} else {
 			lblEnd.setText("falsch :o(");
 			Textfields(false);
+			list[currentVok.getBox()].remove(currentVok);
+			currentVok.setBox(1);
+			list[1].add(currentVok);
+			setLabels();
 			generator.setVokBox(currentVok, 1);
 		}
 
@@ -538,7 +554,7 @@ public class MainFrame extends JFrame {
 			de = false;
 		}
 		displayVok();
-//		tabbedPane.setEnabledAt(1, true);
+		// tabbedPane.setEnabledAt(1, true);
 		tabbedPane.setSelectedIndex(1);
 
 	}
