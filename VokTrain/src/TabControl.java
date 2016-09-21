@@ -20,6 +20,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 
 public class TabControl extends JFrame {
@@ -250,7 +251,9 @@ public class TabControl extends JFrame {
 		JButton btnSort = new JButton("De");
 		btnSort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vl.sortList(true);
+//				vl.sortList(true);
+				Arrays.sort(list, new DEComparator());
+				
 			}
 		});
 		GridBagConstraints gbc_btnSort = new GridBagConstraints();
@@ -262,7 +265,8 @@ public class TabControl extends JFrame {
 		JButton btnSort_1 = new JButton("En");
 		btnSort_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vl.sortList(false);
+//				vl.sortList(false);
+				Arrays.sort(list, new ENComparator());
 			}
 		});
 		GridBagConstraints gbc_btnSort_1 = new GridBagConstraints();
