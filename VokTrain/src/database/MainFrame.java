@@ -431,6 +431,7 @@ public class MainFrame extends JFrame {
 				}
 			}
 		});
+		
 //		TODO: Sort by clicking Table
 //		table.getTableHeader().addMouseListener(new MouseAdapter() {
 //		    @Override
@@ -476,6 +477,10 @@ public class MainFrame extends JFrame {
 	}
 
 	private void displayVok() {
+		if (list[box].size() == 0){
+			JOptionPane.showMessageDialog(this, "List empty\nselect another one", "ERROR", JOptionPane.ERROR_MESSAGE);
+			tabbedPane.setSelectedIndex(0);
+		} else{
 		Textfields(true);
 		textField.setText("");
 		textField_1.setText("");
@@ -485,7 +490,7 @@ public class MainFrame extends JFrame {
 			textField.setText(currentVok.getdt());
 		} else {
 			textField_1.setText(currentVok.geten());
-		}
+		}}
 	}
 
 	public void Textfields(boolean enable) {
@@ -508,8 +513,8 @@ public class MainFrame extends JFrame {
 			list[currentVok.getBox()].remove(currentVok);
 			currentVok.setBox(currentVok.getBox() + 1);
 			list[currentVok.getBox()].add(currentVok);
-
-			generator.setVokBox(currentVok, currentVok.getBox() + 1);
+			setLabels();
+			generator.setVokBox(currentVok, currentVok.getBox());
 			// displayVok();
 		} else {
 			lblEnd.setText("falsch :o(");
